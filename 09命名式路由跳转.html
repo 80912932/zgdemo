@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#pe{
+				width: 500px;
+				border: 5px solid red;
+			}
+			#news{
+				width: 500px;
+				border: 5px solid blue;
+			}
+		</style>
+	</head>
+	<body>
+		 <div id="app">
+			 <!-- <router-view></router-view> -->
+			<!-- 路由跳转部分，router-link是一个组件，该组件用于设置一个导航链接，切换不同的HTML网页内容（组件），to属性是目标地址，也就是跳转的组件地址；本质上来说，该组件会被渲染成一个a标签； -->
+			<div>
+				<!-- 命名式路由跳转 -->
+				<router-link :to="{name:'pe'}">体育页面</router-link>
+				-------
+				<router-link :to="newsObj">新闻页面</router-link>
+			</div>
+			<!-- 路由出口，路由跳转时匹配的路径对应的组件会将渲染到这里 -->
+			<router-view></router-view>
+		 </div>
+	</body>
+	<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/template" id="peID">
+		<div id="pe">
+		    <h2>{{name}}</h2>
+			<ul>
+				<li>体育模块1</li>
+				<li>体育模块2</li>
+				<li>体育模块3</li>
+				<li>体育模块4</li>
+				<li>体育模块5</li>
+			</ul>
+		</div>
+	</script>
+	<script type="text/template" id="newsID">
+		<div id="news">
+		    <h2>{{name}}</h2>
+			<ul>
+				<li>新闻模块1</li>
+				<li>新闻模块2</li>
+				<li>新闻模块3</li>
+				<li>新闻模块4</li>
+				<li>新闻模块5</li>
+			</ul>
+		</div>
+	</script>
+	<script type="text/javascript">
+		// 自定义组件 - 局部组件
+		const pe = {
+			template:`#peID`,
+			data(){
+				return {
+					name:"体育模块内容"
+				}
+			}
+		};
+		const news = {
+			template:`#newsID`,
+			data(){
+				return {
+					name:"新闻模块内容"
+				}
+			}
+		};
+		// 1.配置路由,定义路由对象,每个路由可以映射一个路径---组件
+		// / 代表默认路由出口
+		const routes = [{
+			path:"/",
+			component:pe
+		},{
+			path:"/pe",
+			// 命名式路由跳转路径
+			name:"pe",
+			component:pe
+		},{
+			path:"/news",
+			name:"news",
+			component:news
+		}];
+		// 2.创建路由实例对象router,然后配置路由信息
+		const router = new VueRouter({
+			// routes:rts
+			routes
+		});
+		// 3.创建vue实例对象,同时使用router配置路由参数路径信息
+		var ve = new Vue({
+			el:"#app",
+			router,
+			data:{
+				newsObj:{
+					name:"news"
+				}
+			},
+			components:{
+				news,
+				pe
+			}
+		})
+	</script>
+</html>
